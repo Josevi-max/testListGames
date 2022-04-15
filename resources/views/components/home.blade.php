@@ -15,6 +15,8 @@
                     @endif
 
                     {{ __('You are logged in!') }}
+                    <a href="/list/create">Pulsa para añadir</a>
+                    
                 </div>
             </div>
         </div>

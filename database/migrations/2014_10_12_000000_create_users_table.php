@@ -21,6 +21,9 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+            $table->BigInteger("id_list")->unsigned()->unsigned()->unique()->nullable();
+            $table->foreign("id_list")->references("id")->on("list_games")->onDelete('cascade')->onUpdate("cascade");
+
         });
     }
 
