@@ -36,12 +36,12 @@
                           <input type="submit" class="btn btn-primary" value="Ver detalles juego">
                         </form>
                         <!-- Button trigger modal -->
-                      <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                        añadir a mi lista
+                      <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#staticBackdrop{{$search['results'][$i]['id']}}">
+                        añadir a mi lista 
                       </button>
 
                       <!-- Modal -->
-                      <div class="modal fade" id="staticBackdrop" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                      <div class="modal fade" id="staticBackdrop{{$search['results'][$i]['id']}}" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                         <div class="modal-dialog">
                           <div class="modal-content">
                             <div class="modal-header">
@@ -53,7 +53,6 @@
                               
                               @if (isset($listsUser))
                                 @for ($j = 0; $j < count($listsUser); $j++)
-
                                 <form action="{{ route('list.update',$search['results'][$i]['id']) }}" method="post">
                                   @csrf
                                   @method("PATCH")

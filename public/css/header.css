@@ -1,0 +1,25 @@
+
+.carousel-item img {
+    height: 500px;
+    position: relative;
+}
+
+.carousel-item h5 {
+    color: #fff;
+}
+
+.carousel-caption {
+    background: #000;
+}
+
+
+
+form {
+    margin: 0;
+}
+
+@media (max-width:768px) {
+    .carousel-item img{
+        height: 400px;
+    }
+}

@@ -16,7 +16,16 @@ class addListGamesController extends Controller
     public function index()
     {
         $list = DB::table('list_games')->where("id_user","=",Auth::id())->get("name");
-        return view("listGames",compact("list"));
+        if (session("dataGamesList")) {
+            $gamesList = session("dataGamesList");
+            $actualListGames = session("actualList");
+        }
+        
+        if (session("isEmpty")) {
+            $emptyList = session("isEmpty");
+        }
+
+        return view("listGames",compact("list", isset($gamesList)?"gamesList":null, isset($actualListGames)?"actualListGames":null, isset($emptyList)?"emptyList":null  ) );
     }
 
     /**
@@ -26,15 +35,16 @@ class addListGamesController extends Controller
      */
     public function create()
     {
-        if(session("failQuery")) {
+
+        if (session("failQuery")) {
             $failQuery = session("failQuery");
         }
 
-        if(session("search")) {
+        if (session("search")) {
             $search = session("search");
         }
 
-        if(session("update")) {
+        if (session("update")) {
             $update = session("update");
         }
 
@@ -82,27 +92,30 @@ class addListGamesController extends Controller
     {
 
         $existList = DB::table('list_games')->where("name", "=", $name)->where("id_user", "=", Auth::id())->exists();
+        $actualList = $name;
+        $dataGamesList = [];
+        $isEmpty = false;
         if($existList) {
             $listIdGames = DB::table('list_games')->where("name", "=", $name)->where("id_user", "=", Auth::id())->pluck("id_games");
-            $arrayIdGames = explode(' | ', $listIdGames[0]);
-            $dataGamesList = [];
-            foreach ($arrayIdGames as $key ) {
-                $callApi = Http::get("https://api.rawg.io/api/games/${key}?key=6c89b42c4215483c8ab7488dcafe2f2a")->json();
-                $dataGamesList += [
-                   "name" => $callApi["name"] ,
-                   "description" => $callApi["description"] ,
-                   "metacritic" => $callApi["metacritic"] ,
-                   "image" => $callApi["background_image"]
-                ];
+            if ($listIdGames[0]!=null) {
+                $arrayIdGames = explode(' | ', $listIdGames[0]);
+                for ($i=0; $i < count($arrayIdGames) ; $i++) {
                 
-               
+                    $callApi = Http::get("https://api.rawg.io/api/games/$arrayIdGames[$i]?key=6c89b42c4215483c8ab7488dcafe2f2a")->json();
+                    $dataGamesList += [ $i => [
+                    "name" => $callApi["name"] ,
+                    "description" => $callApi["description"] ,
+                    "metacritic" => $callApi["metacritic"] ,
+                    "image" => $callApi["background_image"] ,
+                    "id" => $callApi["id"]
+                    ] ];
+                }
+            } else {
+                $isEmpty = true;
             }
-
-            
-            
         }
 
-        return $dataGamesList;
+        return redirect()->route("list.index")->with("dataGamesList", $dataGamesList)->with("actualList", $actualList)->with("isEmpty", $isEmpty);
     }
 
     /**
@@ -125,9 +138,8 @@ class addListGamesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $id_games = DB::table('list_games')->where("name","=",$request["list"] )->get("id_games");
+        $id_games = DB::table('list_games')->where("name","=",$request["list"] )->where("id_user", "=", Auth::id())->get("id_games");
         $update = "true";
-
         if ($id_games[0]->id_games == null) {
             $id_games[0]->id_games = "${id}";
         } else if(!str_contains($id_games[0]->id_games, $id)) {
@@ -137,7 +149,7 @@ class addListGamesController extends Controller
         }
         
         
-        DB::table('list_games')->where("name","=",$request["list"] )->update([
+        DB::table('list_games')->where("name","=",$request["list"] )->where("id_user", "=", Auth::id())->update([
             "id_games" => $id_games[0]->id_games
         ]);
         return redirect()->route("list.create")->with("update", $update);
@@ -149,8 +161,30 @@ class addListGamesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request ,$id)
     {
-        //
+
+        
+        if(isset($request) && $request["list"]) {
+
+            $listGames = DB::table('list_games')->where("name","=",$request["list"] )->where("id_user", "=",Auth::id())->pluck("id_games");
+            $arrayIdGames = explode(' | ', $listGames[0]);
+            $newArrayIdGames = "";
+            foreach ($arrayIdGames as $key) {
+                if ($key != $id) {
+                    if ($key === array_key_first($arrayIdGames) | $newArrayIdGames == '') {
+                        $newArrayIdGames = $key;
+                    } else {
+                        $newArrayIdGames .= " | ${key}";
+                    }
+                    
+                }
+            }
+            DB::table('list_games')->where("name","=",$request["list"] )->where("id_user", "=", Auth::id())->update([
+                "id_games" => $newArrayIdGames
+            ]);
+
+            return redirect()->route("list.show",$request["list"]);
+        }
     }
 }
