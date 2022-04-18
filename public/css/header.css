@@ -12,7 +12,11 @@
     background: #000;
 }
 
-
+.navbar {
+    position: fixed;
+    z-index: 100;
+    width: 100%;
+}
 
 form {
     margin: 0;

@@ -11,7 +11,7 @@
               Todo correcto joven
             </div>
       @endif
-        <form action="{{ route('list.store') }}" method="POST">
+        <form action="{{ route('home.store') }}" method="POST">
             @csrf
             <div class="form-group">
                 <label>Nombre de lista</label>
@@ -53,7 +53,7 @@
                               
                               @if (isset($listsUser))
                                 @for ($j = 0; $j < count($listsUser); $j++)
-                                <form action="{{ route('list.update',$search['results'][$i]['id']) }}" method="post">
+                                <form action="{{ route('home.update',$search['results'][$i]['id']) }}" method="post">
                                   @csrf
                                   @method("PATCH")
                                   <input type="hidden" name="list" value="{{$listsUser[$j]->name}}">

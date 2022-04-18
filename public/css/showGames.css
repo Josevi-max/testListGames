@@ -1,0 +1,17 @@
+
+
+.img-game {
+    height: 10rem;
+}
+
+.text-card-games {
+    background: #000;
+    color: #fff;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.special-btn {
+    clip-path: polygon(0 0,100% 0,100% 100%,12px 100%,0 calc(100% - 12px));
+}

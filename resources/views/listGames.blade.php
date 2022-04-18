@@ -4,14 +4,14 @@
     @if (isset($emptyList))
         @if ($emptyList)
             <div class="alert alert-danger container" role="alert">
-               Esta lista se ha quedado vacía pulsa <a href="{{route('list.create')}}">aquí</a> para añadir algunos juegos
+               Esta lista se ha quedado vacía pulsa <a href="{{route('home.index')}}">aquí</a> para añadir algunos juegos
             </div>
         @endif
     @endif
     <div class="container">
         @if ($list != null)
             @for ($i = 0; $i < count($list); $i++)
-                <form action="{{ route('list.show', $list[$i]->name) }}" method="get">
+                <form action="{{ route('home.show', $list[$i]->name) }}" method="get">
                     @csrf
                     <button type="submit" class="btn btn-primary">
                         {{ $list[$i]->name }}
@@ -30,7 +30,7 @@
                             @csrf
                             <input type="submit" class="btn btn-primary" value="Ver detalles juego">
                         </form>
-                        <form action="{{ route('list.destroy', $gamesList[$i]['id']) }}" method="post">
+                        <form action="{{ route('home.destroy', $gamesList[$i]['id']) }}" method="post">
                             @csrf
                             @method('delete')
                             <input type="hidden" name="list" value="{{ $actualListGames }}">

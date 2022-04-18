@@ -1,0 +1,22 @@
+
+#session {
+    background: no-repeat   url("https://cdn.pixabay.com/photo/2017/02/08/12/52/forest-2048742_1280.jpg");
+    background-size: cover;
+}
+
+.card {
+    border-radius: 1rem;
+}
+
+.img-desktop {
+    height: 516px;
+    max-width: 100%;
+}
+
+.secondary-color {
+    color: #393f81;
+}
+
+.title {
+    letter-spacing: 1px;
+}

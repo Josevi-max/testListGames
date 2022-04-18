@@ -1,11 +1,11 @@
 <x-head />
 <body>
     <div id="app">
-        <main>
-            <x-header />
+        <x-header />
+            <main class="pt-5">
                 @yield('content')
-            <x-footer />
-        </main>
+            </main>
+        <x-footer />
     </div>
 </body>
 
