@@ -12,6 +12,3 @@
     overflow: hidden;
 }
 
-.special-btn {
-    clip-path: polygon(0 0,100% 0,100% 100%,12px 100%,0 calc(100% - 12px));
-}

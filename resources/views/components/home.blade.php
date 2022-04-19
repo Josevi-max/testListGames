@@ -25,7 +25,7 @@
                         </select>
                         </label>
                         <label class="fw-bold">Cant: <br>
-                        <select class="form-select " name="page_size" onchange="submit()">
+                        <select class="form-select" name="page_size" onchange="submit()">
                             <option value="9" {{$sizePage == 9 ? 'selected': ''}}>9</option>
                             <option value="15" {{$sizePage == 15 ? 'selected': ''}}>15</option>
                             <option value="24" {{$sizePage == 24 ? 'selected': ''}}>24</option>
@@ -48,26 +48,25 @@
 
     <!-- Modal Add list-->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog no-border-radius">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title text-center mx-auto" id="exampleModalLabel">Nueva lista</h5>
+                    <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <form action="{{ route('home.store') }}" method="POST">
-                        @csrf
+                <form action="{{ route('home.store') }}" method="POST">
+                    @csrf
+                    <div class="modal-body mb-4 mt-4">
                         <div class="form-group">
-                            <label>Nombre de lista</label>
-                            <input name="name_list" class="form-control">
+                            <label for="formFile" id="name_list" class="form-label"><i class="fas fa-gamepad h3"></i></label>
+                            
+                            <input name="name_list" id="name_list" class="special-form-control" placeholder="Nombre">
                         </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Send message</button>
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary mx-auto btn btn-default">Enviar</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

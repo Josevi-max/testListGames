@@ -32,11 +32,11 @@
         <!-- Modal add game to list-->
         <div class="modal fade" id="staticBackdrop{{ $search['results'][$i]['id'] }}" data-bs-keyboard="false"
             tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel">Selecione una de sus listas</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        <h5 class="modal-title mx-auto" id="staticBackdropLabel">Selecione una lista</h5>
+                        <button type="button" class="btn-close m-0" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -45,16 +45,16 @@
                             <img src="{{ asset('images/plus.png') }}" alt="plus" class="img icon">
                             <span class="text-uppercase">Crear lista</span>
                         </button>
-                        @if (isset($listsUser))
+                        @if (isset($listsUser) && $listsUser != null)
                             <div class="row justify-content-center text-center">
                                 @for ($j = 0; $j < count($listsUser); $j++)
-                                    <div class="col-6 col-lg-4 mb-3 mt-2 ">
+                                    <div class="col-12 mb-3 mt-2 ">
                                         <form action="{{ route('home.update', $search['results'][$i]['id']) }}" method="post">
                                             @csrf
                                             @method("PATCH")
                                             <input type="hidden" name="list" value="{{ $listsUser[$j]->name }}">
                                             <button type="submit"
-                                                class="btn btn-dark special-btn p-3"><i class="fas fa-clipboard-list"></i>  {{ $listsUser[$j]->name }}</button>
+                                                class="text-uppercase bg-dark text-white list-group-item special-btn p-3 col-12">{{ $listsUser[$j]->name }}</button>
                                         </form>
                                     </div>
                                 
@@ -62,7 +62,7 @@
                             </div>
                                 
                         @else
-                            No tienes ahora mismo listas
+                            No tienes listas ahora mismo
                         @endif
                     </div>
                 </div>
