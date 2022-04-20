@@ -10,8 +10,10 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Input;
+use Helpers\Api;
 class HomeController extends Controller
 {
+    use Api;
     /**
      * Display a listing of the resource.
      *
@@ -38,7 +40,7 @@ class HomeController extends Controller
         } else if(isset($filters)){
             $specialSearch = $filters;
         }else {
-            $specialSearch = "Lanzamientos";
+            $specialSearch = "Populares";
         }
 
         if (session("search")) {
@@ -47,11 +49,8 @@ class HomeController extends Controller
             $lastSearch = session("lastSearch");
         } else {
             $sizePage = 15;
-            $actualDate = date("Y-m-d");
-            $lastMonth = date("Y-m-d",strtotime('-1 months', strtotime($actualDate)));
-            $api= Http::get("https://api.rawg.io/api/games?key=6c89b42c4215483c8ab7488dcafe2f2a&dates=${lastMonth},${actualDate}&page_size=${sizePage}");
             $lastSearch = '';
-            $search = $api->json();
+            $search =$this->search("Populares",$sizePage);
         }
 
         if (session("update")) {
@@ -128,31 +127,7 @@ class HomeController extends Controller
     public function show($name)
     {
 
-        $existList = DB::table('list_games')->where("name", "=", $name)->where("id_user", "=", Auth::id())->exists();
-        $actualList = $name;
-        $dataGamesList = [];
-        $isEmpty = false;
-        if($existList) {
-            $listIdGames = DB::table('list_games')->where("name", "=", $name)->where("id_user", "=", Auth::id())->pluck("id_games");
-            if ($listIdGames[0]!=null) {
-                $arrayIdGames = explode(' | ', $listIdGames[0]);
-                for ($i=0; $i < count($arrayIdGames) ; $i++) {
-                
-                    $callApi = Http::get("https://api.rawg.io/api/games/$arrayIdGames[$i]?key=6c89b42c4215483c8ab7488dcafe2f2a")->json();
-                    $dataGamesList += [ $i => [
-                    "name" => $callApi["name"] ,
-                    "description" => $callApi["description"] ,
-                    "metacritic" => $callApi["metacritic"] ,
-                    "image" => $callApi["background_image"] ,
-                    "id" => $callApi["id"]
-                    ] ];
-                }
-            } else {
-                $isEmpty = true;
-            }
-        }
-
-        return redirect()->route("home.index")->with("dataGamesList", $dataGamesList)->with("actualList", $actualList)->with("isEmpty", $isEmpty);
+        
     }
 
     /**
@@ -221,7 +196,7 @@ class HomeController extends Controller
                 "id_games" => $newArrayIdGames
             ]);
 
-            return redirect()->route("home.show",$request["list"]);
+            return redirect()->route("list.load",$request["list"]);
         }
     }
 

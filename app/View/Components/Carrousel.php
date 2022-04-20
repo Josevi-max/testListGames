@@ -4,8 +4,10 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 use Illuminate\Support\Facades\Http;
+use Helpers\Api;
 class Carrousel extends Component
 {
+    use Api;
     /**
      * Create a new component instance.
      *
@@ -23,10 +25,7 @@ class Carrousel extends Component
      */
     public function render()
     {
-        $actualDate = date('Y-m-d');
-        $lastYear = date('Y')-1;
-        $callApi= Http::get("https://api.rawg.io/api/games?key=6c89b42c4215483c8ab7488dcafe2f2a&dates=${lastYear}-01-01,${actualDate}&ordering=-added");
-        $listGames=$callApi->json();
-        return view('components.carrousel', compact("listGames"));
+        $sizePage = 10;
+        return $this->search('Esperados',$sizePage,'','components.carrousel');
     }
 }

@@ -1,0 +1,31 @@
+.img-list {
+    height: 500px;
+}
+
+.info-extra {
+    position: relative;
+    bottom: 250px;
+    opacity: 0;
+}
+
+.card-info img {
+    height: 300px;
+}
+
+.card-info {
+    height: 300px;
+}
+.card-info:hover .info-extra{
+    opacity: 1;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(.4,0,.2,1);
+    transition-duration: 0.6s;
+    
+}
+
+.card-info:hover img{
+    transition-property: all;
+    transition-timing-function: cubic-bezier(.4,0,.2,1);
+    transition-duration: 0.6s;
+    filter: brightness(0.3);
+}

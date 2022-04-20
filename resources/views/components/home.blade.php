@@ -18,10 +18,11 @@
                 <form action="{{ route('search.specialSearch') }}" method="get">
                         <label class="fw-bold">Filtros:<br>
                         <select class="form-select" name="show" onchange="submit()">
-                            <option value = "Lanzamientos" {{$specialSearch == 'Lanzamientos' ? 'selected': ''}}>Ultimos lanzamientos</option>
                             <option value = "Populares" {{$specialSearch == "Populares" ? 'selected': ''}}>Populares</option>
-                            <option value = "Puntuados" {{$specialSearch == "Puntuados" ? 'selected': ''}}>Mejor puntuados</option>
                             <option value = "Esperados" {{$specialSearch == "Esperados" ? 'selected' : ''}}>Más esperados</option>
+                            <option value = "Lanzamientos" {{$specialSearch == 'Lanzamientos' ? 'selected': ''}}>Ultimos lanzamientos</option>
+                            <option value = "Puntuados" {{$specialSearch == "Puntuados" ? 'selected': ''}}>Mejor puntuados</option>
+                            
                         </select>
                         </label>
                         <label class="fw-bold">Cant: <br>
@@ -46,30 +47,7 @@
     </div>
 
 
-    <!-- Modal Add list-->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog no-border-radius">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title text-center mx-auto" id="exampleModalLabel">Nueva lista</h5>
-                    <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form action="{{ route('home.store') }}" method="POST">
-                    @csrf
-                    <div class="modal-body mb-4 mt-4">
-                        <div class="form-group">
-                            <label for="formFile" id="name_list" class="form-label"><i class="fas fa-gamepad h3"></i></label>
-                            
-                            <input name="name_list" id="name_list" class="special-form-control" placeholder="Nombre">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary mx-auto btn btn-default">Enviar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+    
     <x-paginate :search="$search" :specialSearch="$specialSearch" :sizePage="$sizePage"/>  
 @endsection
 

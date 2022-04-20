@@ -4,6 +4,7 @@ use App\Http\Controllers\addListGamesController;
 use App\Http\Controllers\searchGameController;
 use App\Http\Controllers\dataGameController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\listController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,6 +30,12 @@ Route::resource('home', HomeController::class)->middleware(['auth:sanctum']);
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 //Route::resource('list', addListGamesController::class)->middleware(['auth:sanctum']);
+
+Route::get('/list', [listController::class, 'index'])->middleware(['auth:sanctum'])->name('list.index');
+
+Route::get('/list/{name}', [listController::class, 'load'])->middleware(['auth:sanctum'])->name('list.load');
+
+Route::delete('/list', [listController::class, 'delete'])->middleware(['auth:sanctum'])->name('list.delete');
 
 Route::get('search', [searchGameController::class, "searchGame"])->middleware(['auth:sanctum'])->name('search.searchGames');
 
