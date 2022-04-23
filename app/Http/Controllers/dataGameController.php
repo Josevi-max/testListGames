@@ -21,6 +21,14 @@ class dataGameController extends Controller
 
         $listsUser = DB::table('list_games')->where('id_user', '=', Auth::id())->get("name");
 
-        return view("dataGame",compact("data","screenshots","listsUser","shop"));
+        if (session("failUpdate")) {
+            $failUpdate = session("failUpdate");
+        }
+
+        if (session("createList")) {
+            $createList = session("createList");
+        }
+
+        return view("dataGame",compact("data","screenshots","listsUser","shop", isset($failUpdate) ? 'failUpdate' : null,isset($createList) ? 'createList' : null));
     }
 }

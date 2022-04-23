@@ -8,14 +8,15 @@ use Helpers\Api;
 class Carrousel extends Component
 {
     use Api;
+    public $data = [];
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($data = '')
     {
-        //
+        $this->data = $data;
     }
 
     /**
@@ -25,7 +26,8 @@ class Carrousel extends Component
      */
     public function render()
     {
+        //return redirect()->route("carrusel.load,Esperados");
         $sizePage = 10;
-        return $this->search('Esperados',$sizePage,'','components.carrousel');
+        return $this->search('Populares',$sizePage,'','components.carrousel');
     }
 }

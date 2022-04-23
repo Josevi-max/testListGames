@@ -1,10 +1,11 @@
 <?php
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\addListGamesController;
+use App\Http\Controllers\PaginateApiController;
 use App\Http\Controllers\searchGameController;
 use App\Http\Controllers\dataGameController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\listController;
+use App\Http\Controllers\CarruselController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,6 +32,8 @@ Route::resource('home', HomeController::class)->middleware(['auth:sanctum']);
 
 //Route::resource('list', addListGamesController::class)->middleware(['auth:sanctum']);
 
+Route::get('/carrusel/{category}', [CarruselController::class, 'load'])->middleware(['auth:sanctum'])->name('carrusel.load');
+
 Route::get('/list', [listController::class, 'index'])->middleware(['auth:sanctum'])->name('list.index');
 
 Route::get('/list/{name}', [listController::class, 'load'])->middleware(['auth:sanctum'])->name('list.load');
@@ -40,5 +43,9 @@ Route::delete('/list', [listController::class, 'delete'])->middleware(['auth:san
 Route::get('search', [searchGameController::class, "searchGame"])->middleware(['auth:sanctum'])->name('search.searchGames');
 
 Route::get('search/special', [searchGameController::class, "specialSearch"])->middleware(['auth:sanctum'])->name('search.specialSearch');
+
+Route::get('search/list', [searchGameController::class, "searchList"])->middleware(['auth:sanctum'])->name('search.searchList');
+
+Route::get('paginate', [PaginateApiController::class, "paginate"])->middleware(['auth:sanctum'])->name('paginate.api');
 
 Route::get('data/game/{id}', [dataGameController::class, "dataGame"])->middleware(['auth:sanctum'])->name('data.dataGames');

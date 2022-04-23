@@ -1,14 +1,3 @@
-#search {
-    border-radius: 20px;
-    padding-left: 30px;
-    width: 300px;
-}
-
-.icon-search {
-    position: relative;
-    left: 30px;
-}
-
 .section-title-home {
     display: flex;
     justify-content: space-between;
@@ -22,7 +11,7 @@
 
 .section-home {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: baseline;
 }
 
@@ -34,7 +23,9 @@
     width: auto;
 }
 
-
+.border-bottom-none {
+    border-bottom: hidden!important;
+}
 
 @media (max-width:991px) {
     .section-home {

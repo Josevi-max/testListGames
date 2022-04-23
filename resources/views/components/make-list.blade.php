@@ -26,7 +26,6 @@ tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                     class="text-uppercase bg-dark text-white list-group-item special-btn p-3 col-12">{{ $listsUser[$j]->name }}</button>
                             </form>
                         </div>
-                    
                     @endfor
                 </div>
                     

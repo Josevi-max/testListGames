@@ -26,13 +26,17 @@ class HomeController extends Controller
             $gamesList = session("dataGamesList");
             $actualListGames = session("actualList");
         }
+
+        if (session("dataCarrusel")) {
+            $carrusel = session("dataCarrusel");
+        }
         
         if (session("isEmpty")) {
             $emptyList = session("isEmpty");
         }
 
-        if (session("failQuery")) {
-            $failQuery = session("failQuery");
+        if (session("createList")) {
+            $createList = session("createList");
         }
 
         if (session("specialSearch")) {
@@ -40,7 +44,13 @@ class HomeController extends Controller
         } else if(isset($filters)){
             $specialSearch = $filters;
         }else {
-            $specialSearch = "Populares";
+            $specialSearch = "Esperados";
+        }
+
+        if (session("actualPage")) {
+            $actualPage = session("actualPage");
+        } else {
+            $actualPage = 1;
         }
 
         if (session("search")) {
@@ -50,18 +60,18 @@ class HomeController extends Controller
         } else {
             $sizePage = 15;
             $lastSearch = '';
-            $search =$this->search("Populares",$sizePage);
+            $search =$this->search("Esperados",$sizePage);
         }
 
-        if (session("update")) {
-            $update = session("update");
+        if (session("failUpdate")) {
+            $failUpdate = session("failUpdate");
         }
 
         $listsUser = DB::table('list_games')->where('id_user', '=', Auth::id())->get("name");
         return view("components/home",compact(
-        "list", "listsUser", isset($gamesList)?"gamesList":null, isset($actualListGames)?"actualListGames":null, isset($emptyList)?"emptyList":null, isset($failQuery)?"failQuery":null,
+        "list", "listsUser", "actualPage", isset($gamesList)?"gamesList":null, isset($actualListGames)?"actualListGames":null, isset($emptyList)?"emptyList":null, isset($createList)?"createList":null,
         isset($search)?"search":null,
-        isset($update)?"update":null, isset($sizePage)?"sizePage":null, isset($lastSearch)?"lastSearch":null, isset($specialSearch)?"specialSearch":null) );
+        isset($failUpdate)?"failUpdate":null, isset($sizePage)?"sizePage":null, isset($lastSearch)?"lastSearch":null, isset($specialSearch)?"specialSearch":null, isset($carrusel)?"carrusel":null) );
     }
 
     /**
@@ -72,25 +82,25 @@ class HomeController extends Controller
     public function create()
     {
 
-        if (session("failQuery")) {
-            $failQuery = session("failQuery");
+        if (session("createList")) {
+            $createList = session("createList");
         }
 
         if (session("search")) {
             $search = session("search");
         }
 
-        if (session("update")) {
-            $update = session("update");
+        if (session("failUpdate")) {
+            $failUpdate = session("failUpdate");
         }
 
         $listsUser = DB::table('list_games')->where('id_user', '=', Auth::id())->get("name");
 
         return view("createList", compact(
             "listsUser",
-             isset($failQuery)?"failQuery":null,
+             isset($createList)?"createList":null,
              isset($search)?"search":null,
-             isset($update)?"update":null
+             isset($failUpdate)?"failUpdate":null
              )) ;
     }
 
@@ -103,19 +113,22 @@ class HomeController extends Controller
     public function store(Request $request)
     {
 
-        $failQuery = "false";
-        $nameList = $request['name_list'];
-        if (!DB::table('list_games')->where('name', '=', $nameList )->where('id_user', '=', Auth::id())->exists()) {
-            if (!DB::table('list_games')->insert([
-                "name" => $request['name_list'],
-                "id_user" => Auth::id()])) {
-                    $failQuery = "true";
+        $createList = "false";
+        if ($request['name_list']!='') {
+            $nameList = $request['name_list'];
+            if (!DB::table('list_games')->where('name', '=', $nameList )->where('id_user', '=', Auth::id())->exists()) {
+                if (!DB::table('list_games')->insert([
+                    "name" => $request['name_list'],
+                    "id_user" => Auth::id()])) {
+                        $createList = "true";
+                } 
+            }else {
+                $createList = "true";
             }
         } else {
-            $failQuery = "true";
+            $createList = "true";
         }
-
-        return redirect()->route("home.index")->with("failQuery", $failQuery);
+        return redirect()->back()->with("createList", $createList);
     }
 
     /**
@@ -151,20 +164,20 @@ class HomeController extends Controller
     public function update(Request $request, $id)
     {
         $id_games = DB::table('list_games')->where("name","=",$request["list"] )->where("id_user", "=", Auth::id())->get("id_games");
-        $update = "true";
+        $failUpdate = "false";
         if ($id_games[0]->id_games == null) {
             $id_games[0]->id_games = "${id}";
         } else if(!str_contains($id_games[0]->id_games, $id)) {
             $id_games[0]->id_games = $id_games[0]->id_games." | ${id}";
         } else {
-            $update = "false";
+            $failUpdate = "true";
         }
         
         
         DB::table('list_games')->where("name","=",$request["list"] )->where("id_user", "=", Auth::id())->update([
             "id_games" => $id_games[0]->id_games
         ]);
-        return redirect()->route("home.index")->with("update", $update);
+        return redirect()->back()->with("failUpdate", $failUpdate);
     }
 
     /**
@@ -198,12 +211,5 @@ class HomeController extends Controller
 
             return redirect()->route("list.load",$request["list"]);
         }
-    }
-
-    public function paginate($items, $perPage = 5, $page = null, $options = [])
-    {
-        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
-        $items = $items instanceof Collection ? $items : Collection::make($items);
-        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
 }

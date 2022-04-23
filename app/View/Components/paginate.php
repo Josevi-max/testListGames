@@ -15,11 +15,13 @@ class paginate extends Component
     public $search = [];
     public $specialSearch;
     public $sizePage;
-    public function __construct($search, $specialSearch, $sizePage)
+    public $actualPage;
+    public function __construct($search, $specialSearch, $sizePage, $actualPage)
     {
         $this->search=$search;
         $this->specialSearch=$specialSearch;
         $this->sizePage=$sizePage;
+        $this->actualPage=$actualPage;
     }
 
     /**

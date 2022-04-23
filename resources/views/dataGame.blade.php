@@ -2,16 +2,15 @@
 <?php
 if (!isset($data['detail'])) {
     switch ($data['metacritic']) {
-    case $data['metacritic'] > 80:
-        $colorBtn = 'btn-success';
-        break;
-    case $data['metacritic'] > 50:
-        $colorBtn = 'btn-warning';
-        break;
-    default:
-        $colorBtn = 'btn-danger';
-        break;
-        
+        case $data['metacritic'] > 80:
+            $colorBtn = 'btn-success';
+            break;
+        case $data['metacritic'] > 50:
+            $colorBtn = 'btn-warning';
+            break;
+        default:
+            $colorBtn = 'btn-danger';
+            break;
     }
 }
 if (isset($screenshots['results'])) {
@@ -23,16 +22,21 @@ if (isset($screenshots['results'])) {
 
 @section('content')
 
-    {{var_dump($shop)}}
+
     @if (!isset($data['detail']))
         <div class="container mt-5">
             <div class="row">
+                @if (isset($createList))
+                    <x-alert :state="$createList" />
+                @elseif(isset($failUpdate))
+                    <x-alert :state="$failUpdate" />
+                @endif
                 <h1 class="text-uppercase text-center mb-4">{{ $data['name'] }}</h1>
                 <div id="carouselExampleControls" class="carousel slide col-lg-6" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         @for ($i = 0; $i < $numberPhotos; $i++)
                             <div class="carousel-item {{ $i == 0 ? 'active' : '' }}">
-                                <img src="{{ $screenshots['results'][$i]['image'] }}" class="d-block w-100" alt="...">
+                                <img src="{{ $screenshots['results'][$i]['image'] }}" class="d-block w-100 zoom" alt="...">
                             </div>
                         @endfor
                     </div>
@@ -81,14 +85,84 @@ if (isset($screenshots['results'])) {
                                     {{ isset($data['publishers'][0]['name']) ? $data['publishers'][0]['name'] : '/' }}
                                 </td>
                             </tr>
-                            
+
                             <tr>
-                                <td colspan="2">
+                                <td>
                                     <span class="fw-bold">Web: </span>
                                     @if ($data['website'])
                                         <a href="{{ $data['website'] }}" target="_blank">Pincha aquí</a>
                                     @else
                                         /
+                                    @endif
+                                </td>
+                                <td>
+                                    <span class="fw-bold">Tienda/s: </span> <br>
+                                    @if ($shop)
+                                        @foreach ($shop['results'] as $item)
+                                            @switch($item["store_id"])
+                                                @case(1)
+                                                    <a href="{{ $item['url'] }}" target="_blank" class="text-decoration-none">
+                                                        <img src="{{ asset('images/steam.png') }}" alt="Steam"
+                                                            class="icon">
+                                                    </a>
+                                                @break
+
+                                                @case(2)
+                                                    <a href="{{ $item['url'] }}" target="_blank" class="text-decoration-none">
+                                                        <img src="{{ asset('images/microsoft.png') }}" alt="Microsfot"
+                                                            class="icon">
+                                                    </a>
+                                                @break
+
+                                                @case(3)
+                                                    <a href="{{ $item['url'] }}" target="_blank" class="text-decoration-none">
+                                                        <img src="{{ asset('images/playstation.png') }}" alt="Playstation"
+                                                            class="icon">
+                                                    </a>
+                                                @break
+
+                                                @case(4)
+                                                    <a href="{{ $item['url'] }}" target="_blank" class="text-decoration-none">
+                                                        <img src="{{ asset('images/apple.png') }}" alt="apple"
+                                                            class="icon">
+                                                    </a>
+                                                @break
+
+                                                @case(5)
+                                                    <a href="{{ $item['url'] }}" target="_blank" class="text-decoration-none">
+                                                        <img src="{{ asset('images/gog.png') }}" alt="gog"
+                                                            class="icon">
+                                                    </a>
+                                                @break
+
+                                                @case(6)
+                                                    <a href="{{ $item['url'] }}" target="_blank" class="text-decoration-none">
+                                                        <img src="{{ asset('images/nintendo.png') }}" alt="nintendo"
+                                                            class="icon">
+                                                    </a>
+                                                @break
+
+                                                @case(8)
+                                                    <a href="{{ $item['url'] }}" target="_blank" class="text-decoration-none">
+                                                        <img src="{{ asset('images/google-play.png') }}" alt="google"
+                                                            class="icon">
+                                                    </a>
+                                                @break
+
+                                                @case(11)
+                                                    <a href="{{ $item['url'] }}" target="_blank" class="text-decoration-none">
+                                                        <img src="{{ asset('images/epic-games.svg') }}" alt="epic"
+                                                            class="icon">
+                                                    </a>
+                                                @break
+
+                                                @default
+                                                    <a href="{{ $item['url'] }}" target="_blank" class="text-decoration-none">
+                                                        <img src="{{ asset('images/web.png') }}" alt="other"
+                                                            class="icon">
+                                                    </a>
+                                            @endswitch
+                                        @endforeach
                                     @endif
                                 </td>
                             </tr>

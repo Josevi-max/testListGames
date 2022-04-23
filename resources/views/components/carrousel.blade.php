@@ -1,5 +1,7 @@
+
     <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
+            
             @for ($i = 0; $i < $sizePage; $i++)
                 <div class="carousel-item {{ $i == 0 ? 'active' : '' }}">
                     <form action="{{ route('data.dataGames', $searchDataView['results'][$i]['id']) }}">
@@ -12,7 +14,7 @@
                     </form>
                 </div>
             @endfor
-
+            
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
             data-bs-slide="prev">
