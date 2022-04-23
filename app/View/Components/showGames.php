@@ -9,16 +9,20 @@ class showGames extends Component
     public $search=[];
     public $sizePage;
     public $listsUser = [];
+    public $actualPage;
+    public $specialSearch;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($search,$sizePage,$listsUser)
+    public function __construct($search,$sizePage,$listsUser,$actualPage = '',$specialSearch='')
     {
         $this->search=$search;
         $this->sizePage=$sizePage;
         $this->listsUser=$listsUser;
+        $this->actualPage=$actualPage;
+        $this->specialSearch=$specialSearch;
     }
 
     /**

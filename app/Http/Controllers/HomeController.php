@@ -165,6 +165,8 @@ class HomeController extends Controller
     {
         $id_games = DB::table('list_games')->where("name","=",$request["list"] )->where("id_user", "=", Auth::id())->get("id_games");
         $failUpdate = "false";
+        $sizePage = $request["sizePage"];
+        $actualPage = $request["actualPage"];
         if ($id_games[0]->id_games == null) {
             $id_games[0]->id_games = "${id}";
         } else if(!str_contains($id_games[0]->id_games, $id)) {
@@ -177,7 +179,14 @@ class HomeController extends Controller
         DB::table('list_games')->where("name","=",$request["list"] )->where("id_user", "=", Auth::id())->update([
             "id_games" => $id_games[0]->id_games
         ]);
-        return redirect()->back()->with("failUpdate", $failUpdate);
+
+        if (isset($request["specialSearch"])) {
+            
+           $search = $this->search($request["specialSearch"],$sizePage,'','','','',$actualPage);
+        } else {
+            $search = '';
+        }
+        return redirect()->back()->with("failUpdate", $failUpdate)->with("search", $search)->with("sizePage",$sizePage)->with("actualPage",$actualPage);
     }
 
     /**

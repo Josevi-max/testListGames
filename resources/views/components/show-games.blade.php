@@ -9,6 +9,7 @@ if (count($search['results']) < $sizePage) {
 }
 
 
+
 ?>
 <div class="mt-5 row justify-content-center">
     @for ($i = 0; $i < $maxSize; $i++)
@@ -38,6 +39,6 @@ if (count($search['results']) < $sizePage) {
             </ul>
             
         </div>
-        <x-make-list :id="$search['results'][$i]['id']" :listsUser="$listsUser" />
+        <x-make-list :id="$search['results'][$i]['id']" :listsUser="$listsUser" :sizePage="$sizePage" :specialSearch="$specialSearch" :actualPage="$actualPage"/>
     @endfor
 </div>

@@ -14,10 +14,16 @@ class makeList extends Component
 
      public $id;
      public $listsUser = [];
-    public function __construct($id,$listsUser)
+     public $actualPage;
+     public $specialSearch;
+     public $sizePage;
+    public function __construct($id,$listsUser,$actualPage = '', $specialSearch = '', $sizePage = '')
     {
         $this->id = $id;
         $this->listsUser = $listsUser;
+        $this->actualPage=$actualPage;
+        $this->specialSearch=$specialSearch;
+        $this->sizePage=$sizePage;
     }
 
     /**

@@ -103,34 +103,6 @@
                 </div>
             </div>
             
-            
-            {{--@for ($i = 0; $i < count($gamesList); $i++)
-                
-                    <div class=" col-lg-4 col-12 card-info mb-3">
-                        <img src="{{ $gamesList[$i]['image'] }}" class="card-img-top" alt="{{ $gamesList[$i]['name'] }}">
-                        <ul class="info-extra list-unstyled text-center">
-                            <li><h5 class="text-white text-uppercase underline">{{ $gamesList[$i]['name'] }}</h5></li>
-                            <li class="mt-5">
-                                <form action="{{ route('data.dataGames', $gamesList[$i]['id']) }}" method="get">
-                                   @csrf
-                                   <input type="submit" class="btn border-bottom text-white text-uppercase fw-bold" value="Ver detalles juego">
-                               </form>
-                           </li>
-                            <li>
-                               <form action="{{ route('home.destroy', $gamesList[$i]['id']) }}" method="post">
-                                   @csrf
-                                   @method('delete')
-                                   <input type="hidden" name="list" value="{{ $actualListGames }}">
-                                   <input onclick="return confirm('¿Estas seguro de querer borrar este juego de la lista ?')" type="submit" class="btn text-white text-uppercase fw-bold" value="Quitar de la lista">
-                               </form>
-                            </li>
-                           
-                        </ul>
-                    </div>
-                    
-                
-            @endfor--}}
-            
         </div>
         @else 
 

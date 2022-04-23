@@ -22,6 +22,11 @@ tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                 @csrf
                                 @method("PATCH")
                                 <input type="hidden" name="list" value="{{ $listsUser[$j]->name }}">
+                                <input type="hidden" name="sizePage" value="{{$sizePage}}">
+                                <input type="hidden" name="actualPage" value="{{$actualPage}}">
+                                @if ($specialSearch)
+                                    <input type="hidden" name="specialSearch" value="{{$specialSearch}}">
+                                @endif
                                 <button type="submit"
                                     class="text-uppercase bg-dark text-white list-group-item special-btn p-3 col-12">{{ $listsUser[$j]->name }}</button>
                             </form>
