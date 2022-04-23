@@ -101,9 +101,8 @@ trait Api
     {
 
         $collection = collect($items);
-        if ($page) {
-            $page = LengthAwarePaginator::resolveCurrentPage();
-        }
+        $page = LengthAwarePaginator::resolveCurrentPage();
+
         
         $paginate = new LengthAwarePaginator(
             $collection->forPage($page, $perPage),
