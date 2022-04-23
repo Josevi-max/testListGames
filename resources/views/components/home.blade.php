@@ -6,7 +6,6 @@
     
     <div class="container">
         @if (isset($createList))
-        {{$createList}}
             <x-alert :state="$createList" />
         @elseif(isset($failUpdate))
             <x-alert :state="$failUpdate" />

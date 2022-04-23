@@ -45,17 +45,25 @@
             
         @endif
 
-        @if ($actualListGames && $gamesList)
-            <div class="d-flex justify-content-end mt-5">
-                <form action="{{ route('search.searchList') }}" method="get">
-                    <i class="fas fa-search icon-search"></i>
-                    <input type="text" name="search" id="search" placeholder="Buscar">
-                    <input type="hidden" name="actualList" value="{{$actualListGames}}">
-                    <input type="hidden" name="games" value="{{json_encode($dataGamesList,true)}}">
-                </form>
-            </div>
+        @if ($actualListGames)
+            @if ($gamesList)
+                <div class="d-flex justify-content-end mt-5">
+                    <form action="{{ route('search.searchList') }}" method="get">
+                        <i class="fas fa-search icon-search"></i>
+                        <input type="text" name="search" id="search" placeholder="Buscar">
+                        <input type="hidden" name="actualList" value="{{$actualListGames}}">
+                        <input type="hidden" name="games" value="{{json_encode($dataGamesList,true)}}">
+                    </form>
+                </div>
+            @endif
+            
             <div class="d-flex justify-content-between mt-4">
-                <p> <span class="fw-bold">TOTAL</span>  {{$gamesList->total()}}</p>
+                @if ($gamesList)
+                    <p>
+                        <span class="fw-bold">TOTAL</span>  {{$gamesList->total()}}
+                    </p>
+                @endif
+                
                 <form action="{{route('list.delete')}}" method="POST">
                     @csrf
                     @method("DELETE")
@@ -63,64 +71,67 @@
                     <input type="hidden" name="list" value={{$actualListGames}}>
                 </form>
             </div>
-            <div class="mt-4 row ">
-                @foreach ($gamesList as $item)
-                    <div class=" col-lg-4 col-12 card-info mb-3">
-                        <img src="{{ $item['image'] }}" class="card-img-top" alt="{{ $item['name'] }}">
-                        <ul class="info-extra list-unstyled text-center">
-                            <li><h5 class="text-white text-uppercase underline">{{ $item['name'] }}</h5></li>
-                            <li class="mt-5">
-                                <form action="{{ route('data.dataGames', $item['id']) }}" method="get">
-                                @csrf
-                                <input type="submit" class="btn border-bottom text-white text-uppercase fw-bold" value="Ver detalles juego">
-                            </form>
+            
+        @endif
+        @if ($gamesList)
+        <div class="mt-4 row ">
+            @foreach ($gamesList as $item)
+                <div class=" col-lg-4 col-12 card-info mb-3">
+                    <img src="{{ $item['image'] }}" class="card-img-top" alt="{{ $item['name'] }}">
+                    <ul class="info-extra list-unstyled text-center">
+                        <li><h5 class="text-white text-uppercase underline">{{ $item['name'] }}</h5></li>
+                        <li class="mt-5">
+                            <form action="{{ route('data.dataGames', $item['id']) }}" method="get">
+                               @csrf
+                               <input type="submit" class="btn border-bottom text-white text-uppercase fw-bold" value="Ver detalles juego">
+                           </form>
+                       </li>
+                        <li>
+                           <form action="{{ route('home.destroy', $item['id']) }}" method="post">
+                               @csrf
+                               @method('delete')
+                               <input type="hidden" name="list" value="{{ $actualListGames }}">
+                               <input onclick="return confirm('¿Estas seguro de querer borrar el juego \'{{$item['name']}}\' de la lista \'{{$actualListGames}}\' ?')" type="submit" class="btn text-white text-uppercase fw-bold" value="Quitar de la lista">
+                           </form>
                         </li>
+                    </ul>
+                </div>
+            @endforeach
+            <div class="d-flex">
+                <div class="mx-auto">
+                    {{ $gamesList->links() }}
+                </div>
+            </div>
+            
+            
+            {{--@for ($i = 0; $i < count($gamesList); $i++)
+                
+                    <div class=" col-lg-4 col-12 card-info mb-3">
+                        <img src="{{ $gamesList[$i]['image'] }}" class="card-img-top" alt="{{ $gamesList[$i]['name'] }}">
+                        <ul class="info-extra list-unstyled text-center">
+                            <li><h5 class="text-white text-uppercase underline">{{ $gamesList[$i]['name'] }}</h5></li>
+                            <li class="mt-5">
+                                <form action="{{ route('data.dataGames', $gamesList[$i]['id']) }}" method="get">
+                                   @csrf
+                                   <input type="submit" class="btn border-bottom text-white text-uppercase fw-bold" value="Ver detalles juego">
+                               </form>
+                           </li>
                             <li>
-                            <form action="{{ route('home.destroy', $item['id']) }}" method="post">
-                                @csrf
-                                @method('delete')
-                                <input type="hidden" name="list" value="{{ $actualListGames }}">
-                                <input onclick="return confirm('¿Estas seguro de querer borrar el juego \'{{$item['name']}}\' de la lista \'{{$actualListGames}}\' ?')" type="submit" class="btn text-white text-uppercase fw-bold" value="Quitar de la lista">
-                            </form>
+                               <form action="{{ route('home.destroy', $gamesList[$i]['id']) }}" method="post">
+                                   @csrf
+                                   @method('delete')
+                                   <input type="hidden" name="list" value="{{ $actualListGames }}">
+                                   <input onclick="return confirm('¿Estas seguro de querer borrar este juego de la lista ?')" type="submit" class="btn text-white text-uppercase fw-bold" value="Quitar de la lista">
+                               </form>
                             </li>
+                           
                         </ul>
                     </div>
-                @endforeach
-                <div class="d-flex">
-                    <div class="mx-auto">
-                        {{ $gamesList->links() }}
-                    </div>
-                </div>
-                
-                
-                {{--@for ($i = 0; $i < count($gamesList); $i++)
                     
-                        <div class=" col-lg-4 col-12 card-info mb-3">
-                            <img src="{{ $gamesList[$i]['image'] }}" class="card-img-top" alt="{{ $gamesList[$i]['name'] }}">
-                            <ul class="info-extra list-unstyled text-center">
-                                <li><h5 class="text-white text-uppercase underline">{{ $gamesList[$i]['name'] }}</h5></li>
-                                <li class="mt-5">
-                                    <form action="{{ route('data.dataGames', $gamesList[$i]['id']) }}" method="get">
-                                    @csrf
-                                    <input type="submit" class="btn border-bottom text-white text-uppercase fw-bold" value="Ver detalles juego">
-                                </form>
-                            </li>
-                                <li>
-                                <form action="{{ route('home.destroy', $gamesList[$i]['id']) }}" method="post">
-                                    @csrf
-                                    @method('delete')
-                                    <input type="hidden" name="list" value="{{ $actualListGames }}">
-                                    <input onclick="return confirm('¿Estas seguro de querer borrar este juego de la lista ?')" type="submit" class="btn text-white text-uppercase fw-bold" value="Quitar de la lista">
-                                </form>
-                                </li>
-                            
-                            </ul>
-                        </div>
-                        
-                    
-                @endfor--}}
                 
-            </div>
+            @endfor--}}
+            
+        </div>
         @else 
 
             <img src="{{asset('images/backList.jpg')}}" alt="backList" class="img-list w-100 mt-5">
