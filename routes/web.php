@@ -6,6 +6,7 @@ use App\Http\Controllers\dataGameController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\listController;
 use App\Http\Controllers\CarruselController;
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -49,3 +50,10 @@ Route::get('search/list', [searchGameController::class, "searchList"])->middlewa
 Route::get('paginate', [PaginateApiController::class, "paginate"])->middleware(['auth:sanctum'])->name('paginate.api');
 
 Route::get('data/game/{id}', [dataGameController::class, "dataGame"])->middleware(['auth:sanctum'])->name('data.dataGames');
+
+//Route::resource('user', UserController::class)->only(["edit","update"])->middleware(['auth:sanctum','settingUser']);
+Route::get('user/settings', [UserController::class,"showDataUser"])->middleware(['auth:sanctum'])->name("user.show");
+
+Route::patch('user/update', [UserController::class,"update"])->middleware(['auth:sanctum'])->name("user.update");
+
+//Route::get('user/settings?id={id}', [UserController::class,"edit"])->middleware(['auth:sanctum','settingUser'])->name("user.edit");

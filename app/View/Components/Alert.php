@@ -12,9 +12,11 @@ class Alert extends Component
      * @return void
      */
     public $state;
-    public function __construct($state = '')
+    public $message;
+    public function __construct($state = '', $message = '')
     {
         $this->state = $state;
+        $this->message = $message;
     }
 
     /**

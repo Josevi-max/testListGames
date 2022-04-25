@@ -1,9 +1,18 @@
 @if ($state == 'true')
     <div class="alert alert-danger" role="alert">
-        Vaya parece que algo fue mal
+        @if ($message)
+            {{$message}}
+        @else
+            Vaya parece que algo fue mal
+        @endif
+        
     </div>
 @else
     <div class="alert alert-success" role="alert">
-        La acción se realizo correctamente
+        @if ($message)
+            {{$message}}
+        @else
+            La acción se realizo correctamente
+        @endif
     </div>
 @endif
