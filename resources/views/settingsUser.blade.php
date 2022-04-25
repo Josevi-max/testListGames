@@ -11,7 +11,13 @@
     @if (session("updatePassword"))
         <x-alert :state="false" :message="'Contraseña actualizada correctamente'" />
     @endif
-    <form action="{{route('user.update')}}" method="POST">
+    @if (session("updateImage"))
+        <x-alert :state="false" :message="'Imagen actualizada correctamente'" />
+    @endif
+    @if (session("somethingFailed"))
+        <x-alert :state="true" />
+    @endif
+    <form action="{{route('user.update')}}" enctype="multipart/form-data" method="POST">
         @csrf 
         @method("PATCH")
         <div class="mb-3">
@@ -31,7 +37,10 @@
             <label for="repeatPassword" class="form-label">Repite tu contraseña</label>
             <input type="password" name="repeatPassword" class="form-control" id="repeatPassword">
         </div>
-        <input type="hidden" name="actualName" value ="{{$dataUser[0]->name}}">
+        <div class="mb-3">
+            <label class="form-label">Subir imagen perfil</label> <br>
+            <input type="file" name="imageProfile" class="form-control">  
+        </div>
         <input type="hidden" name="actualEmail" value="{{$dataUser[0]->email}}">
         <input type="hidden" name="actualPassword" value={{$dataUser[0]->password}}>
         <button type="submit" class="btn btn-primary">Actualizar</button>

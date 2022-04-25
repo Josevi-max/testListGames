@@ -103,3 +103,9 @@ body {
 .height-39 {
     height: 39px;
 }
+
+.profile {
+    width: 35px;
+    height: 30px;
+    border-radius: 20px;
+}

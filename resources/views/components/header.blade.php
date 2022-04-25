@@ -35,6 +35,10 @@
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            @if (file_exists('img/post/'.Auth::id().'.jpg'))
+                                <img src="{{asset('img/post/'.Auth::id().'.jpg')}}" alt="image profile" class="profile">
+                            @endif
+                            
                             {{ Auth::user()->name }}
                         </a>
 
