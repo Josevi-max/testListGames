@@ -7,16 +7,19 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Helpers\Api;
+
 class listController extends Controller
 {
     use Api;
-    public function index()
+    public function index($id = '')
     {
-        $list = DB::table('list_games')->where('id_user', '=', Auth::id())->get("name");
+        $list = DB::table('list_games')->where('id_user', '=', empty($id) ? Auth::id() : $id)->get("name");
+        $idUser = $id;
         $gamesList = '';
         $emptyList = '';
         $actualListGames = '';
         $dataGamesList = '';
+        $canEdit = '';
         if (session("paginate")) {
             $gamesList = session("paginate");
             $dataGamesList = session("dataGamesList");
@@ -28,45 +31,45 @@ class listController extends Controller
         if (session("actualList")) {
             $actualListGames = session("actualList");
         }
-        
-        return view("listGames", compact("list", "gamesList", "emptyList", "actualListGames","dataGamesList"));
+
+        if (session("canEdit")) {
+            $canEdit = session("canEdit");
+        }
+
+        return view("listGames", compact("list", "gamesList", "emptyList", "actualListGames", "dataGamesList", "idUser", "canEdit"));
     }
 
-    public function load($name)
+    public function load($name, $id)
     {
-        $existList = DB::table('list_games')->where("name", "=", $name)->where("id_user", "=", Auth::id())->exists();
         $actualList = $name;
         $dataGamesList = [];
         $paginate = [];
         $isEmpty = false;
-        if ($existList) {
-            $listIdGames = DB::table('list_games')->where("name", "=", $name)->where("id_user", "=", Auth::id())->pluck("id_games");
-            if ($listIdGames[0]) {
-                $arrayIdGames = explode(' | ', $listIdGames[0]);
-                
-                for ($i = 0; $i < count($arrayIdGames); $i++) {
+        $canEdit = ($id == Auth::id());
+        $listIdGames = DB::table('list_games')->where("name", "=", $name)->where("id_user", "=", $id)->pluck("id_games");
+        if ($listIdGames[0]) {
+            $arrayIdGames = explode(' | ', $listIdGames[0]);
+            for ($i = 0; $i < count($arrayIdGames); $i++) {
 
-                    $callApi = Http::get("https://api.rawg.io/api/games/$arrayIdGames[$i]?key=6c89b42c4215483c8ab7488dcafe2f2a")->json();
-                    $dataGamesList += [
-                        $i => [
-                            "name" => $callApi["name"],
-                            "image" => $callApi["background_image"],
-                            "id" => $callApi["id"]
-                        ]
-                    ];
-                }
-
-                $paginate = $this->paginate($dataGamesList,6,'list/'.$actualList);
-            } else {
-                $isEmpty = true;
+                $callApi = Http::get("https://api.rawg.io/api/games/$arrayIdGames[$i]?key=6c89b42c4215483c8ab7488dcafe2f2a")->json();
+                $dataGamesList += [
+                    $i => [
+                        "name" => $callApi["name"],
+                        "image" => $callApi["background_image"],
+                        "id" => $callApi["id"]
+                    ]
+                ];
             }
+            $paginate = $this->paginate($dataGamesList, 6);
+        } else {
+            $isEmpty = true;
         }
-        return redirect()->route("list.index")->with("paginate", $paginate)->with("actualList", $actualList)->with("isEmpty", $isEmpty)->with("dataGamesList",$dataGamesList);
+        return redirect()->route("list.index", $id)->with("paginate", $paginate)->with("actualList", $actualList)->with("isEmpty", $isEmpty)->with("dataGamesList", $dataGamesList)->with("canEdit", $canEdit);
     }
 
     public function delete(Request $request)
     {
         DB::table('list_games')->where('id_user', '=', Auth::id())->where('name', '=', $request['list'])->delete();
-        return redirect()->route('list.index');
+        return back();
     }
 }

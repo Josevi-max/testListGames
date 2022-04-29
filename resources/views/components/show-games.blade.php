@@ -1,5 +1,3 @@
-<link rel="stylesheet" href="{{ asset('css/showGames.css') }}">
-<link rel="stylesheet" href="{{asset('css/list.css')}}">
 
 <?php
 if (count($search['results']) < $sizePage) {

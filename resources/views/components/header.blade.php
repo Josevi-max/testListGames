@@ -1,5 +1,3 @@
-
-<link rel="stylesheet" href="{{ asset('css/header.css') }}">
 <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
     <div class="container">
         <a class="navbar-brand" href="{{ url('/') }}">
@@ -35,24 +33,30 @@
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                            @if (file_exists('img/post/'.Auth::id().'.jpg'))
-                                <img src="{{asset('img/post/'.Auth::id().'.jpg')}}" alt="image profile" class="profile">
+                            @if ($imageProfile[0]->profile)
+                                <img src="{{ asset('img/post/' .$imageProfile[0]->profile) }}" alt="image profile"
+                                    class="profile">
                             @endif
-                            
+
                             {{ Auth::user()->name }}
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-
-                            <a class="dropdown-item" href="{{route('list.index')}}">
+                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                Crear lista
+                            </a>
+                            <a class="dropdown-item" href="{{ route('list.index', Auth::id()) }}">
                                 Mis listas
                             </a>
-                            <a class="dropdown-item" href="{{route("user.show")}}">
-                                Ajustes de usuario
+                            <a class="dropdown-item" href="{{ route('community.index') }}">
+                                Comunidad
+                            </a>
+                            <a class="dropdown-item" href="{{ route('user.show') }}">
+                                Perfil
                             </a>
 
                             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                               document.getElementById('logout-form').submit();">
+                                                       document.getElementById('logout-form').submit();">
                                 Cerrar sesión
                             </a>
 
@@ -66,3 +70,33 @@
         </div>
     </div>
 </nav>
+@if (session('createList'))
+    <div class="pt-70 container">
+        <x-alert :state="session('createList')" />
+    </div>
+@endif
+<!-- Modal Add list-->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog no-border-radius">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-center mx-auto" id="exampleModalLabel">Nueva lista</h5>
+                <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('home.store') }}" method="POST">
+                @csrf
+                <div class="modal-body mb-4 mt-4">
+                    <div class="form-group">
+                        <label for="formFile" id="name_list" class="form-label"><i
+                                class="fas fa-gamepad h3"></i></label>
+
+                        <input name="name_list" id="name_list" class="special-form-control" placeholder="Nombre">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary mx-auto btn btn-default">Enviar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

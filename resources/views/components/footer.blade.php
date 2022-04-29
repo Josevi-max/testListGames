@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="{{asset('css/footer.css')}}">
 <footer class=" text-center ">
     <!-- Grid container -->
     <div class="container p-4 pb-0">

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Helpers\Api;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
+
 class searchGameController extends Controller
 {
     use Api;
@@ -47,7 +49,6 @@ class searchGameController extends Controller
     public function searchList(Request $request) {
         $list = $request['actualList'];
         $search = strtolower($request['search']);
-        //$idListGames = DB::table('list_games')->where("name" , "=" , $list)->pluck("id_games");
         $data = json_decode($request["games"]);
         $resultSearch = [];
         foreach ($data as $key => $value) {
@@ -56,23 +57,9 @@ class searchGameController extends Controller
                 
             }
             $resultSearch = json_decode(json_encode($resultSearch), true);
-            
-            
             $paginate = $this->paginate($resultSearch,6,'list/'.$list);
-           /* $collection = collect($resultSearch);
-            $page = LengthAwarePaginator::resolveCurrentPage();;
-            $perPage = 6;
-
-            $paginate = new LengthAwarePaginator(
-                $collection->forPage($page, $perPage),
-                $collection->count(),
-                $perPage,
-                $page,
-                ['path' => url('list/'.$list)]
-            );        */
-            
         }
-        return redirect()->route("list.index")->with("paginate", $paginate)->with("actualList", $list)->with("dataGamesList",$data);
+        return redirect()->back()->with("paginate", $paginate)->with("actualList", $list)->with("dataGamesList",$data);
     }
 }
 

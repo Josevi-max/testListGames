@@ -1,5 +1,3 @@
-<link rel="stylesheet" href="{{asset('css/login.css')}}">
-
 @extends('layouts.base')
 
 @section('content')
@@ -10,8 +8,9 @@
                     <div class="card" >
                         <div class="row g-0">
                             <div class="col-md-6 col-lg-5 d-none d-md-block">
-                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/img1.webp"
-                                    alt="login form" class="img-fluid"/>
+                                <img src="{{ asset('images/gamer-login.jpg') }}"
+                                    alt="login form" class="img-login"/>
+                                    
                             </div>
                             <div class="col-md-6 col-lg-7 d-flex align-items-center">
                                 <div class="card-body p-4 p-lg-5 text-black">
@@ -52,9 +51,9 @@
                                                 sesión</button>
                                         </div>
 
-                                        <p class="mb-5 pb-lg-2 secondary-color" >¿No tienes una cuenta? <a
+                                        <span class="mb-5 pb-lg-2 secondary-color" >¿No tienes una cuenta? <a
                                                 href="{{ route('register') }}"  class="secondary-color">Registrate aquí</a>
-                                        </p>
+                                        </span>
                                     </form>
 
                                 </div>

@@ -1,14 +1,13 @@
-<link rel="stylesheet" href="{{ asset('css/home.css') }}">
 @extends('layouts.base')
 
 @section('content')
     <x-carrousel />
     
     <div class="container">
-        @if (isset($createList))
-            <x-alert :state="$createList" />
-        @elseif(isset($failUpdate))
-            <x-alert :state="$failUpdate" />
+        @if(isset($failUpdate))
+            <div class="mt-5"> 
+                <x-alert :state="$failUpdate" />
+            </div>
         @endif
         <h1 class="text-uppercase underline text-center mt-5">Explora</h1>
         <div class="mt-5 section-home">

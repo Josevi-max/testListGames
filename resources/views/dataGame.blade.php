@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="{{ asset('css/dataGames.css') }}">
+
 <?php
 if (!isset($data['detail'])) {
     switch ($data['metacritic']) {
@@ -26,9 +26,7 @@ if (isset($screenshots['results'])) {
     @if (!isset($data['detail']))
         <div class="container mt-5">
             <div class="row">
-                @if (isset($createList))
-                    <x-alert :state="$createList" />
-                @elseif(isset($failUpdate))
+                @if (isset($failUpdate))
                     <x-alert :state="$failUpdate" />
                 @endif
                 <h1 class="text-uppercase text-center mb-4">{{ $data['name'] }}</h1>
@@ -36,7 +34,7 @@ if (isset($screenshots['results'])) {
                     <div class="carousel-inner">
                         @for ($i = 0; $i < $numberPhotos; $i++)
                             <div class="carousel-item {{ $i == 0 ? 'active' : '' }}">
-                                <img src="{{ $screenshots['results'][$i]['image'] }}" class="d-block w-100 zoom" alt="...">
+                                <img src="{{ $screenshots['results'][$i]['image'] }}" class="d-block w-100 zoom" alt="screenshot #{{$i}}">
                             </div>
                         @endfor
                     </div>
@@ -184,8 +182,8 @@ if (isset($screenshots['results'])) {
                                     {{ $data['metacritic_platforms'][0]['metascore'] }}
                                 </button>
                                 <img class="img-meta"
-                                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Metacritic_logo.svg/1089px-Metacritic_logo.svg.png?20180714112338"
-                                    alt="">
+                                    src="{{asset('images/metacritic.png')}}"
+                                    alt="metacritic image">
                             </a>
                         </div>
                     @endif
@@ -195,7 +193,7 @@ if (isset($screenshots['results'])) {
                 </div>
                 <h2 class="text-center mt-3">Descripción</h2>
                 <?php
-                echo $data['description'];
+                    echo $data['description'];
                 ?>
 
                 @for ($i = 0; $i < count($data['platforms']); $i++)
@@ -214,8 +212,8 @@ if (isset($screenshots['results'])) {
         @else
             <div class="container">
                 <div class="row mx-auto w-50">
-                    <img src="https://img.freepik.com/free-vector/404-error-with-landscape-concept-illustration_114360-7968.jpg?w=996&t=st=1650299094~exp=1650299694~hmac=fc58472d1b30ece0113f8e9cf58e6ba7aa20999a4c5a69f832e0f0e8a0ef8b8d"
-                        alt="">
+                    <img src="{{asset('images/404.jpg')}}"
+                        alt="404">
                 </div>
             </div>
     @endif

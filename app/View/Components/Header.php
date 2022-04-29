@@ -1,7 +1,8 @@
 <?php
 
 namespace App\View\Components;
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\Component;
 class Header extends Component
 {
@@ -22,7 +23,7 @@ class Header extends Component
      */
     public function render()
     {   
-        
-        return view('components.header');
+        $imageProfile = DB::table('users')->where("id",Auth::id())->get("profile");
+        return view('components.header',compact("imageProfile"));
     }
 }

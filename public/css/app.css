@@ -52,9 +52,10 @@ body {
     display: flex;
     overflow: overlay;
     width: 75%;
+    
 }
 
-::-webkit-scrollbar{
+.list-buttons::-webkit-scrollbar{
     display: none;
 }
 
@@ -81,8 +82,6 @@ body {
     
     .zoom:active
      {
-    /**adjust scale to desired size, 
-    add browser prefixes**/
     -ms-transform: scale(2.5);    
     -moz-transform: scale(2.5);  
     -webkit-transform: scale(2.5);  
@@ -108,4 +107,16 @@ body {
     width: 35px;
     height: 30px;
     border-radius: 20px;
+}
+
+.pt-70 {
+    padding-top: 70px;
+}
+
+#mainCarrusel {
+    margin: auto;
+}
+
+.max-height-100 {
+    max-height: 100px;
 }

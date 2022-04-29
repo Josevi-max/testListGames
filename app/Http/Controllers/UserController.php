@@ -12,9 +12,15 @@ class UserController extends Controller
 {
     public function showDataUser()
     {
-
+        //$listIdGames = DB::table("list_games")->where("id_user",Auth::id())->get("id_games");
+       // $idGames = explode(" | ",$listIdGames);
+        //return $idGames;
+        $dataLists = DB::table("list_games")->where("id_user",Auth::id())->get(["name","id_games"]);
+        foreach ($dataLists as $item) {
+            $item->id_games = explode(" | ",$item->id_games);
+        }
         $dataUser = DB::table('users')->where("id", Auth::id())->get();
-        return view("settingsUser", compact("dataUser"))->with("updateName", session("updateName"))->with("updateEmail", session("updateEmail"))->with("updatePassword", session("updatePassword"))->with("updateImage",session("updateImage"))->with("somethingFailed",session("somethingFailed"));
+        return view("settingsUser", compact("dataUser","dataLists"))->with("updateName", session("updateName"))->with("updateEmail", session("updateEmail"))->with("updatePassword", session("updatePassword"))->with("updateImage",session("updateImage"))->with("somethingFailed",session("somethingFailed"));
     }
 
     public function update(Request $request)
@@ -34,12 +40,14 @@ class UserController extends Controller
         }
 
         if ($request->email != $request->actualEmail) {
-            if (!DB::table('users')->where("email",$request->email)->exists()) {
-                DB::table('users')->where("id", Auth::id())->update([
-                    "email" => $request->email
-                ]);
-                $updateEmail = true;
-                $somethingFailed = false;
+            if (filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
+                if (!DB::table('users')->where("email",$request->email)->exists()) {
+                    DB::table('users')->where("id", Auth::id())->update([
+                        "email" => $request->email
+                    ]);
+                    $updateEmail = true;
+                    $somethingFailed = false;
+                }
             }
         }
 
@@ -51,14 +59,23 @@ class UserController extends Controller
             $somethingFailed = false;
         }
 
-        // script para subir la imagen
         if ($request->hasFile("imageProfile")) {
-            $image         = $request->file("imageProfile");;
-            $nameImage   = Str::slug(Auth::id()) . ".jpg";
-            $route           = public_path("img/post/");
-            $image->move($route, $nameImage);
-            $updateImage = true;
-            $somethingFailed = false;
+            $image         = $request->file("imageProfile");
+            $formats = ["jpg", "png", "gif"];
+            if (in_array($image->extension(),$formats)) {
+                $nameImage   = Auth::id().$image->extension();
+                $route           = public_path("img/post/");
+                $image->move($route, $nameImage);
+                $updateImage = true;
+                $somethingFailed = false;
+
+                DB::table('users')->where("id",Auth::id())->update([
+                    "profile" => $nameImage
+                ]);
+            }
+            
+            
+            
         }
 
         return back()->with("updateName", $updateName)->with("updateEmail", $updateEmail)->with("updatePassword", $updatePassword)->with("updateImage",$updateImage)->with("somethingFailed",$somethingFailed);

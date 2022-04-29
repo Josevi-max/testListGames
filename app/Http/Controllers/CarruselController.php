@@ -10,6 +10,6 @@ class CarruselController extends Controller
     public function load($category) {
         $sizePage = 10;
         $dataCarrusel = $this->search($category,$sizePage);
-        return redirect()->route('home.index')->with("dataCarrusel",$dataCarrusel); ;
+        return redirect()->route('home.index')->with("dataCarrusel",$dataCarrusel);
     }
 }

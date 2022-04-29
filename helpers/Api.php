@@ -4,7 +4,7 @@ namespace Helpers;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Pagination\LengthAwarePaginator;
-
+use Illuminate\Pagination\Paginator;
 trait Api
 {
 
@@ -97,9 +97,9 @@ trait Api
     }
 
 
-    public function paginate($items, $perPage = 5, $path)
+    public function paginate($items, $perPage = 5, $path = '')
     {
-
+        $path = empty($path) ? Paginator::resolveCurrentPath() : $path;
         $collection = collect($items);
         $page = LengthAwarePaginator::resolveCurrentPage();
 

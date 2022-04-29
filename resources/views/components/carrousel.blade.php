@@ -1,5 +1,5 @@
-
-    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+<div class="container">
+    <div id="mainCarrusel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
             
             @for ($i = 0; $i < $sizePage; $i++)
@@ -16,12 +16,13 @@
             @endfor
             
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+        <button class="carousel-control-prev" type="button" data-bs-target="#mainCarrusel"
             data-bs-slide="prev">
             <span class="carousel-control-prev-icon"></span>
         </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+        <button class="carousel-control-next" type="button" data-bs-target="#mainCarrusel"
             data-bs-slide="next">
             <span class="carousel-control-next-icon"></span>
         </button>
     </div>
+</div>

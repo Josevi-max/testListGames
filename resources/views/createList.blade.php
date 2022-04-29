@@ -24,7 +24,7 @@
         @if (isset($search))
             @for ($i = 0; $i < count($search); $i++)
                 <div class="card" style="width: 18rem;">
-                    <img src="{{ $search['results'][$i]['background_image'] }}" class="card-img-top" alt="...">
+                    <img src="{{ $search['results'][$i]['background_image'] }}" class="card-img-top" alt="image {{ $search['results'][$i]['name'] }}">
                     <div class="card-body">
                         <h5 class="card-title">{{ $search['results'][$i]['name'] }}</h5>
                         <form action="{{ route('data.dataGames', $search['results'][$i]['id']) }}">
