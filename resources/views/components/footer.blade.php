@@ -10,6 +10,7 @@
           class="btn linkedin btn-primary btn-floating m-1 "
           href="https://www.linkedin.com/in/jose-vicente-fernandez-morant-350916203/"
           role="button"
+          target="_blank"
           ><i class="fab fa-linkedin-in"></i
         ></a>
         <!-- Github -->
@@ -17,6 +18,7 @@
           class="btn github btn-primary btn-floating m-1 "
           href="https://github.com/Josevi-max"
           role="button"
+          target="_blank"
           ><i class="fab fa-github"></i
         ></a>
       </section>

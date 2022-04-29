@@ -67,7 +67,7 @@
                 <div class="col-lg-6 col-12 bg-white p-5 overflow-auto ">
                     <ol class="list-group list-group-numbered max-height-100"  >
                         @foreach ($dataLists as $item)
-                            <a href="/list/{{$item->name}}/user/{{Auth::id()}}" target="_blank" class="text-decoration-none">
+                            <a href="/list/{{$item->name}}/user/{{Auth::id()}}" class="text-decoration-none">
                                 <li class="list-group-item d-flex justify-content-between align-items-start">
                                     <div class="ms-2 me-auto">
                                         <div class="fw-bold">{{$item->name}}</div>

@@ -28,7 +28,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::resource('home', HomeController::class)->middleware(['auth:sanctum']);
+Route::resource('home', HomeController::class)->middleware(['auth:sanctum'])->except(["show","edit"]);
 
 Route::get('/carrusel/{category}', [CarruselController::class, 'load'])->middleware(['auth:sanctum'])->name('carrusel.load');
 

@@ -44,7 +44,7 @@ class HomeController extends Controller
         } else if(isset($filters)){
             $specialSearch = $filters;
         }else {
-            $specialSearch = "Esperados";
+            $specialSearch = "Populares";
         }
 
         if (session("actualPage")) {
@@ -60,7 +60,7 @@ class HomeController extends Controller
         } else {
             $sizePage = 15;
             $lastSearch = '';
-            $search =$this->search("Esperados",$sizePage);
+            $search =$this->search("Populares",$sizePage);
         }
 
         if (session("failUpdate")) {
@@ -129,29 +129,6 @@ class HomeController extends Controller
             $createList = "true";
         }
         return redirect()->back()->with("createList", $createList);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  string  $name
-     * @return \Illuminate\Http\Response
-     */
-    public function show($name)
-    {
-
-        
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**

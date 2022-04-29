@@ -26,7 +26,6 @@ class Carrousel extends Component
      */
     public function render()
     {
-        //return redirect()->route("carrusel.load,Esperados");
         $sizePage = 10;
         return $this->search('Populares',$sizePage,'','components.carrousel');
     }
