@@ -199,7 +199,7 @@ class HomeController extends Controller
                 "id_games" => $newArrayIdGames
             ]);
 
-            return redirect()->route("list.load",$request["list"]);
+            return back();
         }
     }
 }
