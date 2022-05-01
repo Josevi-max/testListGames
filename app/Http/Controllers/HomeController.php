@@ -25,18 +25,27 @@ class HomeController extends Controller
         if (session("dataGamesList")) {
             $gamesList = session("dataGamesList");
             $actualListGames = session("actualList");
+        } else {
+            $gamesList = null;
+            $actualListGames = null;
         }
 
         if (session("dataCarrusel")) {
             $carrusel = session("dataCarrusel");
+        } else {
+            $carrusel = null;
         }
         
         if (session("isEmpty")) {
             $emptyList = session("isEmpty");
+        } else {
+            $emptyList = null;
         }
 
         if (session("createList")) {
             $createList = session("createList");
+        } else {
+            $createList = null;
         }
 
         if (session("specialSearch")) {
@@ -65,13 +74,13 @@ class HomeController extends Controller
 
         if (session("failUpdate")) {
             $failUpdate = session("failUpdate");
+        } else {
+            $failUpdate = null;
         }
 
         $listsUser = DB::table('list_games')->where('id_user', '=', Auth::id())->get("name");
         return view("components/home",compact(
-        "list", "listsUser", "actualPage", isset($gamesList)?"gamesList":null, isset($actualListGames)?"actualListGames":null, isset($emptyList)?"emptyList":null, isset($createList)?"createList":null,
-        isset($search)?"search":null,
-        isset($failUpdate)?"failUpdate":null, isset($sizePage)?"sizePage":null, isset($lastSearch)?"lastSearch":null, isset($specialSearch)?"specialSearch":null, isset($carrusel)?"carrusel":null) );
+        "list", "listsUser", "actualPage","gamesList", "actualListGames", "emptyList", "createList","search","failUpdate", "sizePage", "lastSearch", "specialSearch", "carrusel") );
     }
 
     /**
