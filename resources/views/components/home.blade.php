@@ -47,7 +47,7 @@
 
         
         @if (isset($search))
-            <x-show-games :search="$search"  :sizePage="$sizePage" :listsUser="$listsUser" :actualPage="$actualPage" :specialSearch="$specialSearch"/>
+            <x-games :search="$search"  :sizePage="$sizePage" :listsUser="$listsUser" :actualPage="$actualPage" :specialSearch="$specialSearch"/>
         @endif
     </div>
 

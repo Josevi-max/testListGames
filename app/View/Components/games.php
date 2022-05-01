@@ -32,6 +32,6 @@ class games extends Component
      */
     public function render()
     {
-        return view('components.show-games');
+        return view('components.games');
     }
 }
