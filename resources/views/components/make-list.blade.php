@@ -18,7 +18,7 @@ tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                 @csrf
                                 @method("PATCH")
                                 <input type="hidden" name="list" value="{{ $listsUser[$j]->name }}">
-                                <input type="hidden" name="sizePage" value="{{$sizePage}}">
+                                <input type="hidden" name="sizePage" value="{{isset($sizePage)?$sizePage:15}}">
                                 <input type="hidden" name="actualPage" value="{{$actualPage}}">
                                 @if ($specialSearch)
                                     <input type="hidden" name="specialSearch" value="{{$specialSearch}}">
