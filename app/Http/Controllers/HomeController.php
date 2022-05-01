@@ -22,44 +22,42 @@ class HomeController extends Controller
     public function index()
     {
         $list = DB::table('list_games')->where("id_user","=",Auth::id())->get("name");
+        $gamesList = null;
+        $actualListGames = null;
+        $carrusel = null;
+        $emptyList = null;
+        $createList = null;
+        $actualPage = 1;
+        $specialSearch = "Populares";
+        $sizePage = 15;
+        $lastSearch = '';
+        $failUpdate = null;
+        $listsUser = DB::table('list_games')->where('id_user', '=', Auth::id())->get("name");
         if (session("dataGamesList")) {
             $gamesList = session("dataGamesList");
             $actualListGames = session("actualList");
-        } else {
-            $gamesList = null;
-            $actualListGames = null;
         }
 
         if (session("dataCarrusel")) {
             $carrusel = session("dataCarrusel");
-        } else {
-            $carrusel = null;
         }
         
         if (session("isEmpty")) {
             $emptyList = session("isEmpty");
-        } else {
-            $emptyList = null;
         }
 
         if (session("createList")) {
             $createList = session("createList");
-        } else {
-            $createList = null;
         }
 
         if (session("specialSearch")) {
             $specialSearch = session("specialSearch");
         } else if(isset($filters)){
             $specialSearch = $filters;
-        }else {
-            $specialSearch = "Populares";
         }
 
         if (session("actualPage")) {
             $actualPage = session("actualPage");
-        } else {
-            $actualPage = 1;
         }
 
         if (session("search")) {
@@ -67,18 +65,15 @@ class HomeController extends Controller
             $sizePage = session("sizePage");
             $lastSearch = session("lastSearch");
         } else {
-            $sizePage = 15;
-            $lastSearch = '';
             $search =$this->search("Populares",$sizePage);
         }
 
         if (session("failUpdate")) {
             $failUpdate = session("failUpdate");
-        } else {
-            $failUpdate = null;
         }
 
-        $listsUser = DB::table('list_games')->where('id_user', '=', Auth::id())->get("name");
+        
+
         return view("components/home",compact(
         "list", "listsUser", "actualPage","gamesList", "actualListGames", "emptyList", "createList","search","failUpdate", "sizePage", "lastSearch", "specialSearch", "carrusel") );
     }

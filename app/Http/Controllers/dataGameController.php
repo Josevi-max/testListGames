@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 class dataGameController extends Controller
 {
     public function dataGame($id){
+        $failUpdate = null;
+        $createList = null;
         $api= Http::get("https://api.rawg.io/api/games/${id}?key=6c89b42c4215483c8ab7488dcafe2f2a");
         $data= $api->json();
 
@@ -29,6 +31,6 @@ class dataGameController extends Controller
             $createList = session("createList");
         }
 
-        return view("dataGame",compact("data","screenshots","listsUser","shop", isset($failUpdate) ? 'failUpdate' : null,isset($createList) ? 'createList' : null));
+        return view("dataGame",compact("data","screenshots","listsUser","shop", "failUpdate","createList"));
     }
 }
