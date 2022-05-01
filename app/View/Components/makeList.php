@@ -17,7 +17,7 @@ class makeList extends Component
      public $actualPage;
      public $specialSearch;
      public $sizePage;
-    public function __construct($id,$listsUser,$actualPage = '', $specialSearch = '', $sizePage = '')
+    public function __construct($id,$listsUser,$actualPage = '', $specialSearch = '', $sizePage = 15)
     {
         $this->id = $id;
         $this->listsUser = $listsUser;
