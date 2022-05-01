@@ -20,7 +20,7 @@ tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                 <input type="hidden" name="list" value="{{ $listsUser[$j]->name }}">
                                 <input type="hidden" name="sizePage" value="{{isset($sizePage)?$sizePage:15}}">
                                 <input type="hidden" name="actualPage" value="{{isset($actualPage)?$actualPage:1}}">
-                                @if ($specialSearch)
+                                @if (isset($specialSearch))
                                     <input type="hidden" name="specialSearch" value="{{$specialSearch}}">
                                 @endif
                                 <button type="submit"
