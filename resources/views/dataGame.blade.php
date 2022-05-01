@@ -1,4 +1,3 @@
-
 <?php
 if (!isset($data['detail'])) {
     switch ($data['metacritic']) {
@@ -30,11 +29,13 @@ if (isset($screenshots['results'])) {
                     <x-alert :state="$failUpdate" />
                 @endif
                 <h1 class="text-uppercase text-center mb-4">{{ $data['name'] }}</h1>
-                <div id="carouselExampleControls" class="carousel slide col-lg-6" data-bs-ride="carousel">
+                <div id="carouselExampleControls" class="carousel slide col-lg-6" data-bs-ride="carousel"
+                    data-bs-toggle="modal" data-bs-target="#zoomCarrusel">
                     <div class="carousel-inner">
                         @for ($i = 0; $i < $numberPhotos; $i++)
                             <div class="carousel-item {{ $i == 0 ? 'active' : '' }}">
-                                <img src="{{ $screenshots['results'][$i]['image'] }}" class="d-block w-100 zoom" alt="screenshot #{{$i}}">
+                                <img src="{{ $screenshots['results'][$i]['image'] }}" class="d-block w-100 zoom"
+                                    alt="screenshot #{{ $i }}">
                             </div>
                         @endfor
                     </div>
@@ -48,6 +49,40 @@ if (isset($screenshots['results'])) {
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Next</span>
                     </button>
+                </div>
+                <!-- Modal -->
+                <div class="modal fade" id="zoomCarrusel" tabindex="-1" aria-labelledby="zoomCarruselLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog mx-width-100">
+                        <div class="modal-content">
+                            <div class="modal-header border-0">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div id="carouselGames" class="carousel slide" data-bs-ride="carousel">
+                                    <div class="carousel-inner">
+                                        @for ($i = 0; $i < $numberPhotos; $i++)
+                                            <div class="carousel-item {{ $i == 0 ? 'active' : '' }}">
+                                                <img src="{{ $screenshots['results'][$i]['image'] }}"
+                                                    class="d-block w-100 zoom" alt="screenshot #{{ $i }}">
+                                            </div>
+                                        @endfor
+                                    </div>
+                                    <button class="carousel-control-prev" type="button"
+                                        data-bs-target="#carouselGames" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button"
+                                        data-bs-target="#carouselGames" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="{{ $numberPhotos ? 'col-lg-6 align-self-center' : 'col-12' }} ">
                     <table class="table">
@@ -181,8 +216,7 @@ if (isset($screenshots['results'])) {
                                 <button class="{{ $colorBtn }} text-white btn">
                                     {{ $data['metacritic_platforms'][0]['metascore'] }}
                                 </button>
-                                <img class="img-meta"
-                                    src="{{asset('images/metacritic.png')}}"
+                                <img class="img-meta" src="{{ asset('images/metacritic.png') }}"
                                     alt="metacritic image">
                             </a>
                         </div>
@@ -193,7 +227,7 @@ if (isset($screenshots['results'])) {
                 </div>
                 <h2 class="text-center mt-3">Descripción</h2>
                 <?php
-                    echo $data['description'];
+                echo $data['description'];
                 ?>
 
                 @for ($i = 0; $i < count($data['platforms']); $i++)
@@ -212,11 +246,12 @@ if (isset($screenshots['results'])) {
         @else
             <div class="container">
                 <div class="row mx-auto w-50">
-                    <img src="{{asset('images/404.jpg')}}"
-                        alt="404">
+                    <img src="{{ asset('images/404.jpg') }}" alt="404">
                 </div>
             </div>
     @endif
+
+
 
 
 @endsection

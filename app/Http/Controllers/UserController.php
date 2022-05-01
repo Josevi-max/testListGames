@@ -12,9 +12,6 @@ class UserController extends Controller
 {
     public function showDataUser()
     {
-        //$listIdGames = DB::table("list_games")->where("id_user",Auth::id())->get("id_games");
-       // $idGames = explode(" | ",$listIdGames);
-        //return $idGames;
         $dataLists = DB::table("list_games")->where("id_user",Auth::id())->get(["name","id_games"]);
         foreach ($dataLists as $item) {
             $item->id_games = explode(" | ",$item->id_games);

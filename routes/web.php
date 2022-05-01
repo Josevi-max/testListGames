@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\listController;
 use App\Http\Controllers\CarruselController;
 use App\Http\Controllers\comunityController;
+use App\Http\Controllers\friendsController;
 use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
@@ -55,3 +56,11 @@ Route::patch('user/update', [UserController::class,"update"])->middleware(['auth
 Route::get('community', [comunityController::class,"index"])->middleware(['auth:sanctum'])->name("community.index");
 
 Route::get('community/search', [comunityController::class,"searchUser"])->middleware(['auth:sanctum'])->name("community.search");
+
+Route::get("/friends/petition", [friendsController::class,"friendsPetition"])->middleware(['auth:sanctum'])->name("friends.petition");
+
+Route::get("/friends", [friendsController::class,"index"])->middleware(['auth:sanctum'])->name("friends.index");
+
+Route::patch("/friends/accept", [friendsController::class,"AccepteFriend"])->middleware(['auth:sanctum'])->name("friends.accept");
+
+Route::delete("/friends/delete", [friendsController::class,"deleteFriend"])->middleware(['auth:sanctum'])->name("friends.delete");

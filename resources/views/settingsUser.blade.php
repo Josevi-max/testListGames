@@ -79,13 +79,6 @@
                       </ol>
                 </div>
             </div>
-
-            <div class="row mt-5">
-                <div class="col-lg-6 col-12">
-                    <h1>Amigos</h1>
-                    <p>Agrega a tus amigos para encontrar sus listas rápidamente</p>
-                </div>
-            </div>
         </div>
     </div>
 @endsection
