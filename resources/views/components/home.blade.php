@@ -46,8 +46,8 @@
         </div>
 
         
-        @if (isset($search) && $search!=null)
-            <x-showGames :search="$search"  :sizePage="$sizePage" :listsUser="$listsUser" :actualPage="$actualPage" :specialSearch="$specialSearch"/>
+        @if (isset($search))
+            <x-show-games :search="$search"  :sizePage="$sizePage" :listsUser="$listsUser" :actualPage="$actualPage" :specialSearch="$specialSearch"/>
         @endif
     </div>
 

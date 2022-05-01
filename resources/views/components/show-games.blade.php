@@ -5,9 +5,6 @@ if (count($search['results']) < $sizePage) {
 } else {
     $maxSize = $sizePage;
 }
-
-
-
 ?>
 <div class="mt-5 row justify-content-center">
     @for ($i = 0; $i < $maxSize; $i++)

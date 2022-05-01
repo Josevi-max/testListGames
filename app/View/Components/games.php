@@ -4,7 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class showGames extends Component
+class games extends Component
 {
     public $search=[];
     public $sizePage;
