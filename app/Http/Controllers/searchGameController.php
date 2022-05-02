@@ -51,6 +51,11 @@ class searchGameController extends Controller
         $search = strtolower($request['search']);
         $data = json_decode($request["games"]);
         $resultSearch = [];
+        $canEdit = false;
+        if (isset($request["id_user"])) {
+            $canEdit = ($request["id_user"] == Auth::id());
+        }
+        
         foreach ($data as $key => $value) {
             if(str_contains(strtolower($value->name), $search)) {
                 array_push($resultSearch,$value);
@@ -59,7 +64,7 @@ class searchGameController extends Controller
             $resultSearch = json_decode(json_encode($resultSearch), true);
             $paginate = $this->paginate($resultSearch,6,'list/'.$list);
         }
-        return redirect()->back()->with("paginate", $paginate)->with("actualList", $list)->with("dataGamesList",$data);
+        return redirect()->back()->with("paginate", $paginate)->with("actualList", $list)->with("dataGamesList",$data)->with("canEdit",$canEdit);
     }
 }
 

@@ -77,4 +77,10 @@ class UserController extends Controller
 
         return back()->with("updateName", $updateName)->with("updateEmail", $updateEmail)->with("updatePassword", $updatePassword)->with("updateImage",$updateImage)->with("somethingFailed",$somethingFailed);
     }
+
+    public function delete () {
+        DB::table('users')->where("id", Auth::id())->delete();
+
+        return back();
+    }
 }

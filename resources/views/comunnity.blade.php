@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container mt-5">
-        @if (session("petition"))
+        @if (session('petition'))
             <x-alert :state="false" :message="'Petición de amistad enviada'" />
         @endif
         <div class="row">
@@ -17,33 +17,39 @@
                     <tr>
                         <th scope="col">Número usuario</th>
                         <th scope="col">Nombre</th>
-                        <th scope="col">Acciones</th>
+                        <th scope="col">Agregar</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($dataUsers as $item)
                         <tr>
                             <td>
-                                #{{$item->id}}
+                                #{{ $item->id }}
                             </td>
                             <td>
-                                @if (!empty($item->profile))
-                                    <img src="{{ asset('img/post/' .$item->profile) }}" alt="image profile" class="profile">
-                                @endif
-                                {{$item->name}}
+                                <a href="{{ route('list.index', $item->id) }}" class="text-decoration-none text-dark">
+                                    @if (!empty($item->profile))
+                                        <img src="{{ asset('img/post/' . $item->profile) }}" alt="image profile"
+                                            class="profile">
+                                    @endif
+                                    {{ $item->name }}
+                                </a>
                             </td>
                             <td class="d-flex justify-content-evenly align-items-center height-50">
-                                <a href="{{route('list.index',$item->id)}}" class="text-decoration-none text-dark">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                                @if (!in_array($item->id,$friendsUser))
-                                    <form action="{{route('friends.petition')}}" method="get">
+                                @if (!in_array($item->id, $friendsUser))
+                                    <form action="{{ route('friends.petition') }}" method="get">
                                         @csrf
-                                        <input type="hidden" name="id_friend" value="{{$item->id}}">
-                                        <button type="submit" class="btn"> <i class="fas fa-user-friends"></i></button>
+                                        <input type="hidden" name="id_friend" value="{{ $item->id }}">
+                                        <button type="submit" class="btn"> <i
+                                                class="fas fa-user-friends"></i></button>
                                     </form>
+                                @else 
+                                    <p>
+                                        Petición ya enviada
+                                    </p>
+                                    
                                 @endif
-                                
+
                             </td>
                         </tr>
                     @endforeach
@@ -52,7 +58,7 @@
         </div>
         <div class="d-flex justify-content-between">
             {{ $dataUsers->links() }}
-            <p class="fw-bold">Resultados: {{$dataUsers->total()}}</p>
+            <p class="fw-bold">Resultados: {{ $dataUsers->total() }}</p>
         </div>
 
     </div>

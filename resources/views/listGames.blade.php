@@ -52,6 +52,7 @@
                         <i class="fas fa-search icon-search"></i>
                         <input type="text" name="search" id="search" placeholder="Buscar">
                         <input type="hidden" name="actualList" value="{{ $actualListGames }}">
+                        <input type="hidden" name="id_user" value="{{$idUser}}">
                         <input type="hidden" name="games" value="{{ json_encode($dataGamesList, true) }}">
                     </form>
                 </div>

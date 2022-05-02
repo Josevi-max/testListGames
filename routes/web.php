@@ -64,3 +64,6 @@ Route::get("/friends", [friendsController::class,"index"])->middleware(['auth:sa
 Route::patch("/friends/accept", [friendsController::class,"AccepteFriend"])->middleware(['auth:sanctum'])->name("friends.accept");
 
 Route::delete("/friends/delete", [friendsController::class,"deleteFriend"])->middleware(['auth:sanctum'])->name("friends.delete");
+
+Route::delete("/user/delete", [UserController::class,"delete"])->middleware(['auth:sanctum'])->name("user.delete");
+

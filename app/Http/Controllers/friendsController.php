@@ -10,7 +10,7 @@ class friendsController extends Controller
     Use Api;
     public function index() {
         $petitionsFriends = DB::table('friends')->where("friend",Auth::id())->where("state",0)->get()->toArray();
-        $friends = DB::table('friends')->where("friend",Auth::id())->orWhere("id_user",Auth::id())->where("state",1)->get()->toArray();
+        $friends = DB::table('friends')->where("state",1)->where("friend",Auth::id())->orWhere("id_user",Auth::id())->get()->toArray();
         $dataFriendsPetitions = [];
         $dataFriends = [];
         foreach ($petitionsFriends as $item) {

@@ -56,7 +56,16 @@
                         <input type="hidden" name="actualEmail" value="{{ $dataUser[0]->email }}">
                         <input type="hidden" name="actualPassword" value={{ $dataUser[0]->password }}>
                         <button type="submit" class="btn btn-primary">Actualizar</button>
+                        
                     </form>
+                    <div class="float-end position-relative bottom-38">
+                        <form action="{{route('user.delete')}}" method="post">
+                            @csrf
+                            @method("delete")
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estas seguro de querer eliminar tu cuenta ?')">Eliminar cuenta</button>
+                        </form>
+                    </div>
+                    
                 </div>
             </div>
             <div class="row mt-5">

@@ -38,12 +38,4 @@
     .section-home select{
         width: 100%;
     }
-    #search {
-        width: 100%;
-    }
-    .icon-search {
-        left: 10px;
-        top: 22px;
-        position: relative;
-    }
 }

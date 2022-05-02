@@ -115,6 +115,14 @@ body {
     height: 50px;
 }
 
+.height-150 {
+    height: 150px;
+}
+
+.bottom-38 {
+    bottom: 38px;
+}
+
 .profile {
     width: 35px;
     height: 30px;
