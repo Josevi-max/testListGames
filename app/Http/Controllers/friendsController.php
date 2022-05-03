@@ -9,12 +9,15 @@ class friendsController extends Controller
 {
     Use Api;
     public function index() {
-        $petitionsFriends = DB::table('friends')->where("friend",Auth::id())->where("state",0)->get()->toArray();
-        $friends = DB::table('friends')->where("state",1)->where("friend",Auth::id())->orWhere("id_user",Auth::id())->get()->toArray();
+        $petitionsFriends = DB::table('friends')->where("state",0)->where("friend",Auth::id())->orWhere("id_user",Auth::id())->get()->toArray();
+        $friends = DB::table('friends')->where([["friend",Auth::id()],["state",1]])->orWhere([["id_user",Auth::id()],["state",1]])->get()->toArray();
         $dataFriendsPetitions = [];
         $dataFriends = [];
         foreach ($petitionsFriends as $item) {
-            array_push($dataFriendsPetitions,DB::table('users')->where("id",$item->id_user)->get());
+            if ($item->id_user != Auth::id()) {
+                array_push($dataFriendsPetitions,DB::table('users')->where("id",$item->id_user)->get());
+            }
+            
         }
         foreach ($friends as $item) {
             if ($item->id_user != Auth::id()) {
@@ -47,6 +50,7 @@ class friendsController extends Controller
 
     public function deleteFriend (Request $request) {
         DB::table('friends')->where("id_user",$request["id"])->where("friend",Auth::id())->delete();
+        DB::table('friends')->where("friend",$request["id"])->where("id_user",Auth::id())->delete();
         return back()->with("delete",true);
     }
 }
